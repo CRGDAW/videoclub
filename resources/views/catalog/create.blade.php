@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
-    <p>Añadir película</p>
+
+    Añadir película
+
 @stop
