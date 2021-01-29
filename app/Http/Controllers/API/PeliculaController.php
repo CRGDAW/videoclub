@@ -56,6 +56,34 @@ class PeliculaController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @param  String  $search
+     * @return \Illuminate\Http\Response
+     */
+    public function newOMBD($idFilm)
+    {
+
+        $host = 'www.omdbapi.com';
+        $response = Http::get('http://' . $host . '/', [
+            'apikey' => env('OMDBAPI_KEY'),
+            'i' => $idFilm,
+            'page' => 1,
+            'r' => 'json'
+        ]);
+
+        $pelicula= new Pelicula;
+        $pelicula->title=$response['Title'];
+        $pelicula->year=$response['Year'];
+        $pelicula->director=$response['Director'];
+        $pelicula->poster=$response['Poster'];
+        $pelicula->synopsis=$response['Plot'];
+        $pelicula->save();
+        //return response()->json(json_decode($response));
+        return new PeliculaResource($pelicula);
+    }
+
+    /**
      * Display the specified resource.
      *
      * @param  \App\Models\Pelicula  $pelicula
